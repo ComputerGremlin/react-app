@@ -40,8 +40,6 @@ const List = (props) => {
 		props.updateActualList(null);
 	};
 
-	console.log("props.list -> "+JSON.stringify(props.list));
-
 	return (
 		<Container>
 			<h1 className="text-center">Help</h1>

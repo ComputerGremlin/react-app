@@ -1,4 +1,5 @@
 import SideMenuItem from "./SideMenuItem";
+import Button from 'react-bootstrap/Button';
 
 const SideMenu = (props) => {
 	const createSideMenuItem = (list) => {
@@ -9,6 +10,7 @@ const SideMenu = (props) => {
                 name={list.name}
                 selectList={selectList}
                 renameList={renameList}
+                deleteList={deleteList}
             />
 		);
 	};
@@ -27,6 +29,7 @@ const SideMenu = (props) => {
     };
 
     const selectList = props.selectList;
+    const deleteList = props.deleteList;
 
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
@@ -40,6 +43,12 @@ const SideMenu = (props) => {
                 {props.myLists.map((list) => createSideMenuItem(list))}
             </ul>
             <hr/>
+            <Button
+                variant="dark" 
+                onClick={props.createList}
+            >
+                Nueva lista
+            </Button>
         </div>
     );
 };

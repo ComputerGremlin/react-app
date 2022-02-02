@@ -47,6 +47,7 @@ const App = () => {
 
     const displayedList = () => {
         let returnedList = null;
+        console.log(JSON.stringify(myLists));
         myLists.forEach((list) => {
             if (list.id === selectedList) {
                 returnedList = list;
@@ -55,9 +56,25 @@ const App = () => {
         return returnedList;
     }
 
+    const createList = () => {
+        const name = prompt("Nombre de la lista:");
+        let maxId = 0;
+        myLists.forEach((list) => {
+            if (list.id > maxId) {
+                maxId = list.id;
+            }
+        });
+        setMyLists([...myLists, {name: name, id: maxId + 1, list: []}]);
+    }
+
+    const deleteList = (id) => {
+        setMyLists(myLists.filter((list) => {
+            return id !== list.id;
+        }));
+    }
+
     console.log("=================================");
     console.log("localStorage -> "+localStorage.lists+"\nselectedList -> "+localStorage.selectedList);
-    console.log("myLists[selectedList] -> "+JSON.stringify(displayedList()));
 
     return (
         <>
@@ -65,6 +82,8 @@ const App = () => {
                 myLists={myLists}
                 selectList={selectList}
                 updateList={updateList}
+                createList={createList}
+                deleteList={deleteList}
             />
             <List 
                 list={displayedList()}

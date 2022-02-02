@@ -15,6 +15,12 @@ const SideMenuItem = (props) => {
             >
 				Renombrar Lista
 			</Button>
+            <Button 
+                variant="dark" 
+                onClick={() => props.deleteList(props.number)}
+            >
+				Borrar Lista
+			</Button>
         </li>
     );
 };
