@@ -6,10 +6,25 @@ const SideMenu = (props) => {
             <SideMenuItem
                 number={list.id} 
                 key={list.id}
+                name={list.name}
                 selectList={selectList}
+                renameList={renameList}
             />
 		);
 	};
+
+    const renameList = (id) => {
+        props.myLists.forEach(list => {
+            if (id === list.id) {
+                const name = prompt("Nuevo nombre:");
+                props.updateList({
+                    list: list.list,
+                    id: list.id,
+                    name: name && name.trim() ? name : list.name
+                });
+            }
+        });
+    };
 
     const selectList = props.selectList;
 

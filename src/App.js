@@ -27,7 +27,7 @@ const App = () => {
         } else {
             setMyLists(
                 myLists.map((list) => {
-                    if (list.id === selectedList) {
+                    if (list.id === actualList.id) {
                         return actualList;
                     }
                     return list;
@@ -45,20 +45,29 @@ const App = () => {
         localStorage.selectedList = listIndex;
     };
 
-    console.log("=================================");
-    console.log("localStorage -> "+localStorage.lists+"selectedList -> "+localStorage.selectedList);
-    console.log("myLists[selectedList] -> "+JSON.stringify(myLists[selectedList]));
+    const displayedList = () => {
+        let returnedList = null;
+        myLists.forEach((list) => {
+            if (list.id === selectedList) {
+                returnedList = list;
+            }
+        });
+        return returnedList;
+    }
 
-    // TODO: pasar solo los indices y nombres a SideMenu
-    // TODO: arregla lo de selectedList-1, usar solo id
+    console.log("=================================");
+    console.log("localStorage -> "+localStorage.lists+"\nselectedList -> "+localStorage.selectedList);
+    console.log("myLists[selectedList] -> "+JSON.stringify(displayedList()));
+
     return (
         <>
             <SideMenu
                 myLists={myLists}
                 selectList={selectList}
+                updateList={updateList}
             />
             <List 
-                list={myLists[selectedList-1]}
+                list={displayedList()}
                 updateActualList={updateList}
             />
         </>

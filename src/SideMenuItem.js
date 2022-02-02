@@ -1,3 +1,5 @@
+import Button from 'react-bootstrap/Button';
+
 const SideMenuItem = (props) => {
     return (
         <li className="nav-item">
@@ -5,8 +7,14 @@ const SideMenuItem = (props) => {
                className="nav-link text-white" 
                onClick={() => props.selectList(props.number)}
             >
-                Item {props.number}
+                {props.name}
             </button>
+            <Button 
+                variant="dark" 
+                onClick={() => props.renameList(props.number)}
+            >
+				Renombrar Lista
+			</Button>
         </li>
     );
 };
