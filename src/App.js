@@ -58,13 +58,26 @@ const App = () => {
 
     const createList = () => {
         const name = prompt("Nombre de la lista:");
+        if (name === null) {
+            return "operation cancelled";
+        } else if (!name) {
+            alert("Inserta un nombre válido");
+            return "invalid name";
+        }
         let maxId = 0;
         myLists.forEach((list) => {
             if (list.id > maxId) {
                 maxId = list.id;
             }
         });
-        setMyLists([...myLists, {name: name, id: maxId + 1, list: []}]);
+        setMyLists([
+            ...myLists, 
+            {
+                name: name, 
+                id: maxId + 1, 
+                list: []
+            }
+        ]);
     }
 
     const deleteList = (id) => {
