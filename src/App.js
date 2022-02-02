@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import List from "./List";
 import SideMenu from "./SideMenu";
+import Alert from 'react-bootstrap/Alert';
 
 const App = () => {
 	// TODO: hacer una inicialización correcta del localStorage en caso de que no exista para evitar errores
@@ -93,15 +94,23 @@ const App = () => {
         <>
             <SideMenu
                 myLists={myLists}
+                selectedList={selectedList}
                 selectList={selectList}
                 updateList={updateList}
                 createList={createList}
                 deleteList={deleteList}
             />
-            <List 
-                list={displayedList()}
-                updateActualList={updateList}
-            />
+            {
+                !displayedList() 
+                    ? <Alert variant='info'>
+                        No hay listas!
+                    </Alert>
+                    : <List 
+                        list={displayedList()}
+                        updateActualList={updateList}
+                    />
+            }
+            
         </>
     );
 };
