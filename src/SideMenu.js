@@ -1,7 +1,11 @@
+import { useState } from "react";
 import SideMenuItem from "./SideMenuItem";
 import Button from 'react-bootstrap/Button';
+import InputModal from './InputModal';
 
 const SideMenu = (props) => {
+    const [showModal, setShowModal] = useState(false);
+
 	const createSideMenuItem = (list) => {
 		return(
             <SideMenuItem
@@ -48,6 +52,13 @@ const SideMenu = (props) => {
             >
                 Nueva lista
             </Button>
+            <Button variant="primary" onClick={() => setShowModal(true)}>
+                Launch static backdrop modal
+            </Button>
+            <InputModal
+                showModal={showModal}
+                closeModal={() => setShowModal(false)}
+            />
         </div>
     );
 };
