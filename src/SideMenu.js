@@ -5,6 +5,7 @@ import InputModal from './InputModal';
 
 const SideMenu = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [listToRename, setListToRename] = useState('');
 
 	const createSideMenuItem = (list) => {
 		return(
@@ -24,13 +25,18 @@ const SideMenu = (props) => {
     const renameList = (id) => {
         props.myLists.forEach(list => {
             if (id === list.id) {
-                const name = prompt("Nuevo nombre:");
-                props.updateList({
-                    list: list.list,
-                    id: list.id,
-                    name: name && name.trim() ? name : list.name
-                });
+                setListToRename(list);
+                setShowModal(true);
             }
+        });
+    };
+
+    const handleSubmit = (newName) => {
+        console.log("newName -> "+newName);
+        props.updateList({
+            list: listToRename.list,
+            id: listToRename.id,
+            name: newName && newName.trim() ? newName : listToRename.name
         });
     };
 
@@ -38,7 +44,6 @@ const SideMenu = (props) => {
     const deleteList = props.deleteList;
 
     return (
-
         <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
             <span className="fs-4">Mis listas</span>
             <hr/>
@@ -52,12 +57,12 @@ const SideMenu = (props) => {
             >
                 Nueva lista
             </Button>
-            <Button variant="primary" onClick={() => setShowModal(true)}>
-                Launch static backdrop modal
-            </Button>
             <InputModal
                 showModal={showModal}
                 closeModal={() => setShowModal(false)}
+                title="ayy lmao"
+                action="activate almonds"
+                handleSubmit={handleSubmit}
             />
         </div>
     );

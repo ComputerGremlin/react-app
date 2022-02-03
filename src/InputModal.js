@@ -1,26 +1,42 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-const InputModal = (props) => (
-    <Modal
-        show={props.showModal}
-        onHide={props.closeModal}
-        backdrop="static"
-    >
-        <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
-        </Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={props.closeModal}>
-                Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-        </Modal.Footer>
-    </Modal>
-);
+const InputModal = (props) => {
+
+    let value = "";
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        props.handleSubmit(value);
+        props.closeModal();
+    };
+
+    const handleChange = (event) => {
+        value = event.target.value;
+    }
+
+    return (
+        <Modal
+            show={props.showModal}
+            onHide={props.closeModal}
+            backdrop="static"
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+                <form onSubmit={handleSubmit}>
+                    <Modal.Body>
+                            <input onChange={handleChange} type="text"></input>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={props.closeModal}>
+                            Close
+                        </Button>
+                        <Button type="submit" variant="primary">{props.action}</Button>
+                    </Modal.Footer>
+                </form>
+        </Modal>
+    )
+};
 
 export default InputModal;
