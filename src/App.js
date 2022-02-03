@@ -4,7 +4,6 @@ import SideMenu from "./SideMenu";
 import Alert from 'react-bootstrap/Alert';
 
 const App = () => {
-	// TODO: hacer una inicialización correcta del localStorage en caso de que no exista para evitar errores
     const [selectedList, setSelectedList] = useState(localStorage.selectedList ? 
         parseInt(localStorage.selectedList) : 1);
 
@@ -48,7 +47,6 @@ const App = () => {
 
     const displayedList = () => {
         let returnedList = null;
-        console.log(JSON.stringify(myLists));
         myLists.forEach((list) => {
             if (list.id === selectedList) {
                 returnedList = list;
