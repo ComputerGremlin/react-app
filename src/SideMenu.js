@@ -47,7 +47,7 @@ const SideMenu = (props) => {
         <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
             <span className="fs-4">Mis listas</span>
             <hr/>
-            <ul className="nav nav-pills flex-column mb-auto">
+            <ul className="nav overflow-auto flex-nowrap nav-pills flex-column mb-auto">
                 {props.myLists.map((list) => createSideMenuItem(list))} 
             </ul>
             <hr/>

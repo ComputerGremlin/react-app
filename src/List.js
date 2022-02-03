@@ -41,7 +41,7 @@ const List = (props) => {
 	};
 
 	return (
-		<Container>
+		<Container className="overflow-auto flex-nowrap">
 			<h1 className="text-center">{props.list.name}</h1>
 			<div className="form-check">
 			{props.list.list.map((value, index) => createListItem(value, index))}
