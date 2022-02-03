@@ -38,6 +38,10 @@ main {
   border-radius: 0;
 }
 
+.nav-link span{
+  cursor: pointer;
+}
+
 .btn-toggle {
   display: inline-flex;
   align-items: center;

@@ -14,7 +14,7 @@ const SideMenuItem = (props) => {
 
     return (
         <li className="nav-item">
-            <a href="#" className={'nav-link d-flex ' + (props.selectedList == props.number ? 'active' : '')}>
+            <div className={'nav-link d-flex ' + (props.selectedList === props.number ? 'active' : '')}>
                 <span
                     className="me-auto"
                     variant="light" 
@@ -38,7 +38,7 @@ const SideMenuItem = (props) => {
                 >
                     <i className="bi-trash3"></i>
                 </Button>
-            </a>
+            </div>
         </li>
     );
 };

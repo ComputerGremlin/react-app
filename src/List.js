@@ -42,7 +42,7 @@ const List = (props) => {
 
 	return (
 		<Container>
-			<h1 className="text-center">Help</h1>
+			<h1 className="text-center">{props.list.name}</h1>
 			<div className="form-check">
 			{props.list.list.map((value, index) => createListItem(value, index))}
 			</div>
