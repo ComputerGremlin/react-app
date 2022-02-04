@@ -6,6 +6,7 @@ import InputModal from "./InputModal";
 
 const List = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [itemToRename, setItemToRename] = useState('');
 
 	const createListItem = (value, index) => {
 		return(
@@ -58,12 +59,21 @@ const List = (props) => {
 	};
 	
 	const changeName = (index) => {
+		setItemToRename(index);
+		console.log(index);
 		setShowModal(true);
-
 	};
 
-	const handleSubmit = (index) => {
-
+	const handleSubmit = (newName) => {
+		props.updateActualList({
+			name: props.list.name,
+			id: props.list.id,
+			list: props.list.list.map(
+				(item,i) => i === itemToRename
+				? {text: newName, checked: item.checked}
+				: {text: item.text, checked: item.checked}
+			)
+		});
 	};
 
 	return (
