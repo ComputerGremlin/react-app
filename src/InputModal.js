@@ -30,7 +30,7 @@ const InputModal = (props) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={props.closeModal}>
-                            Close
+                            Cancelar
                         </Button>
                         <Button type="submit" variant="primary">{props.action}</Button>
                     </Modal.Footer>
