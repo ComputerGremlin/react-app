@@ -59,8 +59,8 @@ const SideMenu = (props) => {
             <InputModal
                 showModal={showModal}
                 closeModal={() => setShowModal(false)}
-                title="ayy lmao"
-                action="activate almonds"
+                title="Nuevo nombre"
+                action="Confirmar"
                 handleSubmit={handleSubmit}
             />
         </div>
