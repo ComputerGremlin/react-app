@@ -5,7 +5,8 @@ import Container from 'react-bootstrap/Container';
 import InputModal from "./InputModal";
 
 const List = (props) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showRenameModal, setShowRenameModal] = useState(false);
+    const [showNewItemModal, setShowNewItemModal] = useState(false);
     const [itemToRename, setItemToRename] = useState('');
 
 	const createListItem = (value, index) => {
@@ -13,25 +14,24 @@ const List = (props) => {
 			<ListItem
 				value={value}
 				key={index}
-				onChildCheck={() => handleChange(index)}
+				onChildCheck={() => handleCheck(index)}
 				deleteItem={() => deleteItem(index)}
 				changeName={() => changeName(index)}
 			/>
 		);
 	};
 
-	const addListItem = () => {
-		const item = prompt("Añade un elemento:");
-		if (item && item.trim()) {
+	const addListItem = (name) => {
+		if (name && name.trim()) {
 			props.updateActualList({
-				list: [...props.list.list, {text: item, checked: false}],
+				list: [...props.list.list, {text: name, checked: false}],
 				name: props.list.name,
 				id: props.list.id
 			});
 		}
 	};
 
-	const handleChange = (index) => {
+	const handleCheck = (index) => {
 		const actualList = props.list.list.map((item, i) => {
 			if (index === i) return {text: item.text, checked: !item.checked};
 			else return item;
@@ -43,7 +43,7 @@ const List = (props) => {
 		});
 	};
 
-	const clearState = () => {
+	const clearList = () => {
 		props.updateActualList(null);
 	};
 
@@ -60,11 +60,10 @@ const List = (props) => {
 	
 	const changeName = (index) => {
 		setItemToRename(index);
-		console.log(index);
-		setShowModal(true);
+		setShowRenameModal(true);
 	};
 
-	const handleSubmit = (newName) => {
+	const handleRename = (newName) => {
 		props.updateActualList({
 			name: props.list.name,
 			id: props.list.id,
@@ -82,18 +81,25 @@ const List = (props) => {
 			<div className="form-check">
 			{props.list.list.map((value, index) => createListItem(value, index))}
 			</div>
-			<Button variant="dark" onClick={addListItem}>
+			<Button variant="dark" onClick={() => setShowNewItemModal(true)}>
 				Añadir check
 			</Button>
-			<Button className='ms-1' variant="secondary" onClick={clearState}>
+			<Button className='ms-1' variant="secondary" onClick={clearList}>
 				Vaciar lista
 			</Button>
 			<InputModal
-                showModal={showModal}
-                closeModal={() => setShowModal(false)}
-                title="ayy lmao"
-                action="activate almonds"
-                handleSubmit={handleSubmit}
+                showModal={showRenameModal}
+                closeModal={() => setShowRenameModal(false)}
+                title="Nuevo nombre"
+                action="Confirmar"
+                handleSubmit={handleRename}
+            />
+			<InputModal
+                showModal={showNewItemModal}
+                closeModal={() => setShowNewItemModal(false)}
+                title="Nuevo checkBox"
+                action="Confirmar"
+                handleSubmit={addListItem}
             />
 		</Container>
 	);
