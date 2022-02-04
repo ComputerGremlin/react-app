@@ -85,9 +85,6 @@ const App = () => {
         }));
     }
 
-    console.log("=================================");
-    console.log("localStorage -> "+localStorage.lists+"\nselectedList -> "+localStorage.selectedList);
-
     return (
         <>
             <SideMenu

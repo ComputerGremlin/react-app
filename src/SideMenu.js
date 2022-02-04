@@ -32,7 +32,6 @@ const SideMenu = (props) => {
     };
 
     const handleSubmit = (newName) => {
-        console.log("newName -> "+newName);
         props.updateList({
             list: listToRename.list,
             id: listToRename.id,
