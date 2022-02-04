@@ -16,6 +16,8 @@
 
 - se podría añadir un texto describtibo a los elementos de listas
 
+- component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. (Al checkear list items).
+
 ## Setup Linux
 
 ```bash
