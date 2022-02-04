@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import List from "./List";
 import SideMenu from "./SideMenu";
 import Alert from 'react-bootstrap/Alert';
+import InputModal from "./InputModal";
 
 const App = () => {
+    const [showNewListModal, setShowNewListModal] = useState(false);
     const [selectedList, setSelectedList] = useState(localStorage.selectedList ? 
         parseInt(localStorage.selectedList) : 1);
 
@@ -92,7 +94,11 @@ const App = () => {
                 selectedList={selectedList}
                 selectList={selectList}
                 updateList={updateList}
-                createList={createList}
+                createList={
+                    createList
+                    // Error: Too many re-renders.
+                    //setShowNewListModal(true)
+                }
                 deleteList={deleteList}
             />
             {
@@ -105,7 +111,13 @@ const App = () => {
                         updateActualList={updateList}
                     />
             }
-            
+            <InputModal
+                showModal={showNewListModal}
+                closeModal={() => setShowNewListModal(false)}
+                title="Nueva lista"
+                action="Confirmar"
+                handleSubmit={createList}
+            />
         </>
     );
 };
