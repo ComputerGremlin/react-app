@@ -2,8 +2,6 @@
 
 ## TODOS
 
-- cambiar los prompts y alertas por modales
-
 - mostrar un mensaje distinto cuando hay listas y selectedList apunta a una lista inexistente o hacer que selectedList tenga siempre un valor válido y de no haber listas uno por defecto
 
 - hacer un modal de alertas para cuando se quiere eliminar una lista o elemento y para otros tipos de alertas
