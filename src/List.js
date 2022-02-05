@@ -75,17 +75,54 @@ const List = (props) => {
 		});
 	};
 
+	const checkAll = () => {
+		const firstItemValue = props.list.list[0].checked;
+		for (const listItem of props.list.list) {
+			if (listItem.checked !== firstItemValue) {
+				props.updateActualList(
+					{
+						name: props.list.name,
+						id: props.list.id,
+						list: props.list.list.map((item) => { return {text: item.text, "checked": true}})
+					}
+				);
+				return;
+			}
+		}
+		if (firstItemValue === false) {
+			props.updateActualList(
+				{
+					name: props.list.name,
+					id: props.list.id,
+					list: props.list.list.map((item) => { return {text: item.text, "checked": true}})
+				}
+			);
+		} else {
+			props.updateActualList(
+				{
+					name: props.list.name,
+					id: props.list.id,
+					list: props.list.list.map((item) => { return {text: item.text, "checked": false}})
+				}
+			);
+		}
+
+	};
+
 	return (
 		<Container className="p-5 m-5 border overflow-auto flex-nowrap">
 			<h1 className="text-center">{props.list.name}</h1>
 			<div className="form-check">
 			{props.list.list.map((value, index) => createListItem(value, index))}
 			</div>
-			<Button variant="dark" onClick={() => setShowNewItemModal(true)}>
+			<Button className='m-1' variant="dark" onClick={() => setShowNewItemModal(true)}>
 				Añadir check
 			</Button>
-			<Button className='ms-1' variant="secondary" onClick={clearList}>
+			<Button className='m-1' variant="secondary" onClick={clearList}>
 				Vaciar lista
+			</Button>
+			<Button className='m-1' variant="dark" onClick={() => checkAll()}>
+				Checkea todo
 			</Button>
 			<InputModal
                 showModal={showRenameModal}
