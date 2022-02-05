@@ -2,7 +2,7 @@
 
 ## TODOS
 
-- cambiar los prompts por modales
+- cambiar los prompts y alertas por modales
 
 - mostrar un mensaje distinto cuando hay listas y selectedList apunta a una lista inexistente o hacer que selectedList tenga siempre un valor válido y de no haber listas uno por defecto
 
@@ -14,9 +14,7 @@
 
 - ajustar la barra lateral para móviles
 
-- se podría añadir un texto describtibo a los elementos de listas
-
-- component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. (Al checkear list items).
+- se podría añadir un texto descriptibo a los elementos de listas
 
 ## Setup Linux
 
