@@ -57,8 +57,7 @@ const App = () => {
         return returnedList;
     }
 
-    const createList = () => {
-        const name = prompt("Nombre de la lista:");
+    const createList = (name) => {
         if (name === null) {
             return "operation cancelled";
         } else if (!name) {
@@ -94,11 +93,7 @@ const App = () => {
                 selectedList={selectedList}
                 selectList={selectList}
                 updateList={updateList}
-                createList={
-                    createList
-                    // Error: Too many re-renders.
-                    //setShowNewListModal(true)
-                }
+                createList={() => setShowNewListModal(true)}
                 deleteList={deleteList}
             />
             {
