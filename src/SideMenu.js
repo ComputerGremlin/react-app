@@ -2,10 +2,13 @@ import { useState } from "react";
 import SideMenuItem from "./SideMenuItem";
 import Button from 'react-bootstrap/Button';
 import InputModal from './InputModal';
+import SimpleModal from './SimpleModal';
 
 const SideMenu = (props) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showRenameModal, setShowRenameModal] = useState(false);
+    const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
     const [listToRename, setListToRename] = useState('');
+    const [listToDelete, setListToDelete] = useState('');
 
 	const createSideMenuItem = (list) => {
 		return(
@@ -26,7 +29,7 @@ const SideMenu = (props) => {
         props.myLists.forEach(list => {
             if (id === list.id) {
                 setListToRename(list);
-                setShowModal(true);
+                setShowRenameModal(true);
             }
         });
     };
@@ -39,8 +42,16 @@ const SideMenu = (props) => {
         });
     };
 
+    const handleConfirm = () => {
+        setShowConfirmDeleteModal(false);
+        props.deleteList(listToDelete)
+    };
+
     const selectList = props.selectList;
-    const deleteList = props.deleteList;
+    const deleteList = (id) => {
+        setShowConfirmDeleteModal(true);
+        setListToDelete(id);
+    };
 
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
@@ -57,11 +68,20 @@ const SideMenu = (props) => {
                 Nueva lista
             </Button>
             <InputModal
-                showModal={showModal}
-                closeModal={() => setShowModal(false)}
+                showModal={showRenameModal}
+                closeModal={() => setShowRenameModal(false)}
                 title="Nuevo nombre"
                 action="Confirmar"
                 handleSubmit={handleSubmit}
+            />
+            <SimpleModal
+                showModal={showConfirmDeleteModal}
+                closeModal={() => setShowConfirmDeleteModal(false)}
+                title="¿Seguro que quiere eliminar el elemento?"
+                body="Esta acción no se puede deshacer."
+                action="Confirmar"
+                handleConfirm={handleConfirm}
+                buttonType="danger"
             />
         </div>
     );

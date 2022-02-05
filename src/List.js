@@ -118,11 +118,11 @@ const List = (props) => {
 			<Button className='m-1' variant="dark" onClick={() => setShowNewItemModal(true)}>
 				Añadir check
 			</Button>
-			<Button className='m-1' variant="secondary" onClick={clearList}>
-				Vaciar lista
-			</Button>
 			<Button className='m-1' variant="dark" onClick={() => checkAll()}>
 				Checkea todo
+			</Button>
+			<Button className='m-1' variant="danger" onClick={clearList}>
+				Vaciar lista
 			</Button>
 			<InputModal
                 showModal={showRenameModal}

@@ -54,6 +54,9 @@ const App = () => {
                 returnedList = list;
             }
         });
+        if (returnedList === null && myLists[0]) {
+            setSelectedList(myLists[0].id);
+        };
         return returnedList;
     }
 
