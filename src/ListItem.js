@@ -15,6 +15,7 @@ const ListItem = (props) => (
 		<div className="ms-auto">
 			<Button 
 				size="sm"
+				variant="outline-primary"
 				onClick={props.changeName}
 			>
 				<i className="bi-pencil-square"></i>

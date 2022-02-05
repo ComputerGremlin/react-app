@@ -1,16 +1,38 @@
 import { useState } from "react";
 import ListItem from './ListItem';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import {Button,	Container,	Card,	ListGroup,	InputGroup,	FormControl, Tooltip, OverlayTrigger} 
+	from 'react-bootstrap';
 import InputModal from "./InputModal";
 
 const List = (props) => {
     const [showRenameModal, setShowRenameModal] = useState(false);
-    const [showNewItemModal, setShowNewItemModal] = useState(false);
     const [itemToRename, setItemToRename] = useState('');
+    const [newListItemInputValue, setNewListItemInputValue] = useState('');
+	
+	const renderTooltip = (overlayProps, description) => {
+		return (
+			<Tooltip id="button-tooltip" {...overlayProps}>
+				{description}
+			</Tooltip>
+		);
+	};
+
+	const createOverlay = (body, data) => {
+		return (
+			<OverlayTrigger
+				placement="bottom"
+				delay={{ show: 250, hide: 400 }}
+				overlay={
+					(overlayProps) => renderTooltip(overlayProps, data)
+				}
+			>
+				<div>{body}</div>
+			</OverlayTrigger>
+		);
+	}
 
 	const createListItem = (value, index) => {
-		return(
+		const listItem = (
 			<ListItem
 				value={value}
 				key={index}
@@ -19,12 +41,18 @@ const List = (props) => {
 				changeName={() => changeName(index)}
 			/>
 		);
+
+		return(
+			<ListGroup.Item key={index} >
+				{value.description ? createOverlay(listItem, value.description) : listItem}
+			</ListGroup.Item>
+		);
 	};
 
 	const addListItem = (name) => {
 		if (name && name.trim()) {
 			props.updateActualList({
-				list: [...props.list.list, {text: name, checked: false}],
+				list: [...props.list.list, {text: name, description: '', checked: false}],
 				name: props.list.name,
 				id: props.list.id
 			});
@@ -44,7 +72,11 @@ const List = (props) => {
 	};
 
 	const clearList = () => {
-		props.updateActualList(null);
+		props.updateActualList({
+			list: [],
+			name: props.list.name,
+			id: props.list.id
+		});
 	};
 
 	const deleteItem = (index) => {
@@ -63,63 +95,95 @@ const List = (props) => {
 		setShowRenameModal(true);
 	};
 
-	const handleRename = (newName) => {
+	const handleRename = (inputValues) => {
+		if (!inputValues.nombre) {
+			props.setToastBody("Inserta un nombre válido");
+            return;
+        }
 		props.updateActualList({
 			name: props.list.name,
 			id: props.list.id,
 			list: props.list.list.map(
 				(item,i) => i === itemToRename
-				? {text: newName, checked: item.checked}
-				: {text: item.text, checked: item.checked}
+				? {
+					text: inputValues.nombre, 
+					description: inputValues.descripcion, 
+					checked: item.checked
+				}
+				: item
 			)
 		});
 	};
 
-	const checkAll = () => {
-		const firstItemValue = props.list.list[0].checked;
-		for (const listItem of props.list.list) {
-			if (listItem.checked !== firstItemValue) {
-				props.updateActualList(
-					{
-						name: props.list.name,
-						id: props.list.id,
-						list: props.list.list.map((item) => { return {text: item.text, "checked": true}})
-					}
-				);
-				return;
+	const getItemToRenameData = () => {
+		let itemToReturn = {};
+		for (let i in props.list.list) {
+			if (i == itemToRename) {
+				itemToReturn = props.list.list[i];
 			}
 		}
-		if (firstItemValue === false) {
-			props.updateActualList(
-				{
-					name: props.list.name,
-					id: props.list.id,
-					list: props.list.list.map((item) => { return {text: item.text, "checked": true}})
-				}
-			);
-		} else {
-			props.updateActualList(
-				{
-					name: props.list.name,
-					id: props.list.id,
-					list: props.list.list.map((item) => { return {text: item.text, "checked": false}})
-				}
-			);
+		return itemToReturn;
+	}
+
+	const checkAll = () => {
+		const firstItemValue = props.list.list[0].checked;
+		let checked = !firstItemValue;
+		
+		for (const listItem of props.list.list) {
+			if (listItem.checked !== firstItemValue) {
+				checked = true;
+			}
 		}
 
+		props.updateActualList(
+			{
+				name: props.list.name,
+				id: props.list.id,
+				list: props.list.list.map((item) => { 
+					return {
+						text: item.text, 
+						description: item.description, 
+						checked: checked
+					}
+				})
+			}
+		);
 	};
+
+	
+	const handleListItemInputChange = (event) => {
+        setNewListItemInputValue(event.target.value);
+    }
+
+	const handleListItemSubmit = (event) => {
+        event.preventDefault();
+        addListItem(newListItemInputValue);
+        setNewListItemInputValue('');
+    };
 
 	return (
 		<Container className="p-5 m-5 border overflow-auto flex-nowrap">
 			<h1 className="text-center">{props.list.name}</h1>
-			<div className="form-check">
-			{props.list.list.map((value, index) => createListItem(value, index))}
-			</div>
-			<Button className='m-1' variant="dark" onClick={() => setShowNewItemModal(true)}>
-				Añadir check
-			</Button>
+			<Card className="my-5">
+				<ListGroup variant="flush">
+					{props.list.list.map((value, index) => createListItem(value, index))}
+					<ListGroup.Item>
+						<form onSubmit={handleListItemSubmit}>
+							<InputGroup>
+								<FormControl 
+									onChange={handleListItemInputChange}
+									value={newListItemInputValue}
+								/>
+								<Button variant="outline-primary" type="submit">
+									Añadir
+								</Button>
+							</InputGroup>
+						</form>
+					</ListGroup.Item>
+				</ListGroup>
+			</Card>
 			<Button className='m-1' variant="dark" onClick={() => checkAll()}>
-				Checkea todo
+				<i className="bi-check-all"></i> Checkea todo
 			</Button>
 			<Button className='m-1' variant="danger" onClick={clearList}>
 				Vaciar lista
@@ -127,16 +191,22 @@ const List = (props) => {
 			<InputModal
                 showModal={showRenameModal}
                 closeModal={() => setShowRenameModal(false)}
-                title="Nuevo nombre"
+                title="Modificar checkbox"
                 action="Confirmar"
                 handleSubmit={handleRename}
-            />
-			<InputModal
-                showModal={showNewItemModal}
-                closeModal={() => setShowNewItemModal(false)}
-                title="Nuevo checkBox"
-                action="Confirmar"
-                handleSubmit={addListItem}
+				inputs={[
+					{
+						name: 'nombre', 
+						label: 'Nombre', 
+						value: getItemToRenameData().text
+					}, 
+					{
+						name: 'descripcion', 
+						label: 'Descripción', 
+						as: 'textarea', 
+						value: getItemToRenameData().description
+					}
+				]}
             />
 		</Container>
 	);

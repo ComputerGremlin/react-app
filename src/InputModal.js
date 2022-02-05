@@ -1,18 +1,39 @@
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import {Modal, Button, Form} from 'react-bootstrap';
 
 const InputModal = (props) => {
 
-    let value = "";
+    let values = {};
+    for (let i in props.inputs) {
+        values[props.inputs[i].name] = '';
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.handleSubmit(value);
+        props.handleSubmit(values);
         props.closeModal();
     };
 
     const handleChange = (event) => {
-        value = event.target.value;
+        values[event.target.name] = event.target.value;
+    }
+
+    const createFormInput = (item, index) => {
+        return(
+            <Form.Group 
+                className={index != 0 ? 'mt-2' : ''}
+                key={index}
+            >
+                {item.label ? <Form.Label>{item.label}</Form.Label> : ''}
+                
+                <Form.Control 
+                    name={item.name}
+                    as={item.as}
+                    rows="3"
+                    onChange={handleChange} 
+                    value={item.value}
+                />
+            </Form.Group>
+		);
     }
 
     return (
@@ -26,7 +47,9 @@ const InputModal = (props) => {
             </Modal.Header>
                 <form onSubmit={handleSubmit}>
                     <Modal.Body>
-                            <input onChange={handleChange} type="text"></input>
+                        {props.inputs.map(
+                            (item, index) => createFormInput(item, index)
+                        )}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={props.closeModal}>

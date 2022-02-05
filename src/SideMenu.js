@@ -34,11 +34,14 @@ const SideMenu = (props) => {
         });
     };
 
-    const handleSubmit = (newName) => {
+    const handleSubmit = (inputValues) => {
+        let newName = inputValues.nombre && inputValues.nombre.trim() 
+            ? inputValues.nombre 
+            : listToRename.name;
         props.updateList({
             list: listToRename.list,
             id: listToRename.id,
-            name: newName && newName.trim() ? newName : listToRename.name
+            name: newName
         });
     };
 
@@ -73,6 +76,7 @@ const SideMenu = (props) => {
                 title="Nuevo nombre"
                 action="Confirmar"
                 handleSubmit={handleSubmit}
+                inputs={[{name: 'nombre'}]}
             />
             <SimpleModal
                 showModal={showConfirmDeleteModal}

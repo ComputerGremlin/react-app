@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import List from "./List";
 import SideMenu from "./SideMenu";
-import Alert from 'react-bootstrap/Alert';
+import { Alert, Toast, ToastContainer } from 'react-bootstrap';
 import InputModal from "./InputModal";
 
 const App = () => {
+    const [toastBody, setToastBody] = useState(false);
     const [showNewListModal, setShowNewListModal] = useState(false);
     const [selectedList, setSelectedList] = useState(localStorage.selectedList ? 
         parseInt(localStorage.selectedList) : 1);
@@ -13,29 +14,14 @@ const App = () => {
         JSON.parse(localStorage.lists) : []);
 
     const updateList = (actualList) => {
-        if (actualList === null) {
-            setMyLists(
-                myLists.map((list) => {
-                    if (list.id === selectedList) {
-                        return {
-                            id: list.id,
-                            name: list.name,
-                            list: []
-                        };
-                    }
-                    return list;
-                })
-            );
-        } else {
-            setMyLists(
-                myLists.map((list) => {
-                    if (list.id === actualList.id) {
-                        return actualList;
-                    }
-                    return list;
-                })
-            );
-        }
+        setMyLists(
+            myLists.map((list) => {
+                if (list.id === actualList.id) {
+                    return actualList;
+                }
+                return list;
+            })
+        );
     };
 
     useEffect(() => {
@@ -60,10 +46,8 @@ const App = () => {
         return returnedList;
     }
 
-    const createList = (name) => {
-        if (name === null) {
-            return "operation cancelled";
-        } else if (!name) {
+    const createList = (inputValues) => {
+        if (!inputValues.nombre) {
             alert("Inserta un nombre válido");
             return "invalid name";
         }
@@ -76,7 +60,7 @@ const App = () => {
         setMyLists([
             ...myLists, 
             {
-                name: name, 
+                name: inputValues.nombre, 
                 id: maxId + 1, 
                 list: []
             }
@@ -107,6 +91,7 @@ const App = () => {
                     : <List 
                         list={displayedList()}
                         updateActualList={updateList}
+                        setToastBody={setToastBody}
                     />
             }
             <InputModal
@@ -115,7 +100,21 @@ const App = () => {
                 title="Nueva lista"
                 action="Confirmar"
                 handleSubmit={createList}
+                inputs={[{name: 'nombre'}]}
             />
+
+            <ToastContainer className="p-3" position="top-end">
+                <Toast 
+                    onClose={() => setToastBody('')} show={toastBody != ''} 
+                    bg="warning"
+                    delay={3000} 
+                    autohide={true}
+                >
+                    <Toast.Body>
+                        <i className="bi-exclamation-triangle"></i> {toastBody}
+                    </Toast.Body>
+                </Toast>
+            </ToastContainer>
         </>
     );
 };
