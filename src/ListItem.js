@@ -6,7 +6,7 @@ const ListItem = (props) => (
 	<Stack direction="horizontal">
 		<div>
 			<Form.Check 
-				type="switch"
+				type="checkbox"
 				label={props.value.text}
 				checked={props.value.checked}
 				onChange={props.onChildCheck}
@@ -22,7 +22,7 @@ const ListItem = (props) => (
 			<Button 
 				className='m-1'
 				size="sm"
-				variant="danger"
+				variant="outline-danger"
 				onClick={props.deleteItem}
 			>
 				<i className="bi-trash3"></i>
