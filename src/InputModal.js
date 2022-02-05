@@ -30,7 +30,7 @@ const InputModal = (props) => {
                     as={item.as}
                     rows="3"
                     onChange={handleChange} 
-                    value={item.value}
+                    placeholder={item.value}
                 />
             </Form.Group>
 		);
