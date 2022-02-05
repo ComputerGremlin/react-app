@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import List from "./List";
 import SideMenu from "./SideMenu";
-import { Alert, Toast, ToastContainer } from 'react-bootstrap';
+import { Alert, Button, Toast, ToastContainer } from 'react-bootstrap';
 import InputModal from "./InputModal";
 
 const App = () => {
@@ -83,17 +83,23 @@ const App = () => {
                 createList={() => setShowNewListModal(true)}
                 deleteList={deleteList}
             />
-            {
-                !displayedList() 
-                    ? <Alert variant='info'>
-                        No hay listas!
-                    </Alert>
-                    : <List 
-                        list={displayedList()}
-                        updateActualList={updateList}
-                        setToastBody={setToastBody}
-                    />
-            }
+            <div className="flex-grow-1">
+                {
+                    !displayedList() 
+                        ? 
+                            <Alert variant='info m-5'>
+                                No hay listas!
+                                <a className="ms-2" onClick={() => setShowNewListModal(true)}>
+                                    Crear lista
+                                </a>
+                            </Alert>
+                        : <List 
+                            list={displayedList()}
+                            updateActualList={updateList}
+                            setToastBody={setToastBody}
+                        />
+                }
+            </div>
             <InputModal
                 showModal={showNewListModal}
                 closeModal={() => setShowNewListModal(false)}
