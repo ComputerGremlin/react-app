@@ -35,9 +35,13 @@ const SideMenu = (props) => {
     };
 
     const handleSubmit = (inputValues) => {
-        let newName = inputValues.nombre && inputValues.nombre.trim() 
-            ? inputValues.nombre 
-            : listToRename.name;
+        let newName = '';
+        if (inputValues.nombre && inputValues.nombre.trim()) {
+            newName = inputValues.nombre;
+        } else {
+            newName = listToRename.name;
+            props.setToastBody("Inserta un nombre válido");
+        }
         props.updateList({
             list: listToRename.list,
             id: listToRename.id,
@@ -81,7 +85,7 @@ const SideMenu = (props) => {
             <SimpleModal
                 showModal={showConfirmDeleteModal}
                 closeModal={() => setShowConfirmDeleteModal(false)}
-                title="¿Seguro que quiere eliminar el elemento?"
+                title="¿Seguro que quiere eliminar esta lista?"
                 body="Esta acción no se puede deshacer."
                 action="Confirmar"
                 handleConfirm={handleConfirm}

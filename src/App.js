@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import List from "./List";
 import SideMenu from "./SideMenu";
-import { Alert, Button, Toast, ToastContainer } from 'react-bootstrap';
+import { Alert, Toast, ToastContainer } from 'react-bootstrap';
 import InputModal from "./InputModal";
 
 const App = () => {
-    const [toastBody, setToastBody] = useState(false);
+    const [toastBody, setToastBody] = useState('');
     const [showNewListModal, setShowNewListModal] = useState(false);
     const [selectedList, setSelectedList] = useState(localStorage.selectedList ? 
         parseInt(localStorage.selectedList) : 1);
@@ -47,8 +47,8 @@ const App = () => {
     }
 
     const createList = (inputValues) => {
-        if (!inputValues.nombre) {
-            alert("Inserta un nombre válido");
+        if (!inputValues.nombre || !inputValues.nombre.trim()) {
+            setToastBody("Inserta un nombre válido");
             return "invalid name";
         }
         let maxId = 0;
@@ -82,6 +82,7 @@ const App = () => {
                 updateList={updateList}
                 createList={() => setShowNewListModal(true)}
                 deleteList={deleteList}
+                setToastBody={setToastBody}
             />
             <div className="flex-grow-1">
                 {
@@ -89,9 +90,9 @@ const App = () => {
                         ? 
                             <Alert variant='info m-5'>
                                 No hay listas!
-                                <a className="ms-2" onClick={() => setShowNewListModal(true)}>
+                                <span className="ms-3" style={{cursor: 'pointer'}} onClick={() => setShowNewListModal(true)}>
                                     Crear lista
-                                </a>
+                                </span>
                             </Alert>
                         : <List 
                             list={displayedList()}
@@ -111,7 +112,7 @@ const App = () => {
 
             <ToastContainer className="p-3" position="top-end">
                 <Toast 
-                    onClose={() => setToastBody('')} show={toastBody != ''} 
+                    onClose={() => setToastBody('')} show={toastBody !== ''} 
                     bg="warning"
                     delay={3000} 
                     autohide={true}

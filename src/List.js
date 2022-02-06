@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ListItem from './ListItem';
-import {Button,	Container,	Card,	ListGroup,	InputGroup,	FormControl, Tooltip, OverlayTrigger} 
+import {Button,	Container, Card, ListGroup,	InputGroup,	FormControl, Tooltip, OverlayTrigger} 
 	from 'react-bootstrap';
 import InputModal from "./InputModal";
 
@@ -56,12 +56,18 @@ const List = (props) => {
 				name: props.list.name,
 				id: props.list.id
 			});
+		} else {
+			props.setToastBody("Inserta un nombre válido");
 		}
 	};
 
 	const handleCheck = (index) => {
 		const actualList = props.list.list.map((item, i) => {
-			if (index === i) return {text: item.text, checked: !item.checked};
+			if (index === i) return {
+				text: item.text,
+				checked: !item.checked,
+				description: item.description
+			};
 			else return item;
 		});
 		props.updateActualList({
@@ -118,7 +124,7 @@ const List = (props) => {
 	const getItemToRenameData = () => {
 		let itemToReturn = {};
 		for (let i in props.list.list) {
-			if (i == itemToRename) {
+			if (parseInt(i) === itemToRename) {
 				itemToReturn = props.list.list[i];
 			}
 		}
@@ -162,7 +168,7 @@ const List = (props) => {
     };
 
 	return (
-		<Container className="p-5 m-5 border overflow-auto flex-nowrap">
+		<Container className="p-5 m-auto border overflow-auto flex-nowrap">
 			<h1 className="text-center">{props.list.name}</h1>
 			<Card className="my-5">
 				<ListGroup variant="flush">

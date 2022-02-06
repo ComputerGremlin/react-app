@@ -20,7 +20,7 @@ const InputModal = (props) => {
     const createFormInput = (item, index) => {
         return(
             <Form.Group 
-                className={index != 0 ? 'mt-2' : ''}
+                className={index !== 0 ? 'mt-2' : ''}
                 key={index}
             >
                 {item.label ? <Form.Label>{item.label}</Form.Label> : ''}
@@ -30,7 +30,7 @@ const InputModal = (props) => {
                     as={item.as}
                     rows="3"
                     onChange={handleChange} 
-                    value={item.value}
+                    placeholder={item.value}
                 />
             </Form.Group>
 		);
