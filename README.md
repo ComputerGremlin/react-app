@@ -1,13 +1,5 @@
 # Proyecto DEW
 
-## TODOS
-
-- alertas para nombres inválidos
-
-- en vez de enviar null a app vacia la lista en List
-
-- ajustar la barra lateral para móviles
-
 ## Setup Linux
 
 ```bash
