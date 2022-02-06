@@ -84,7 +84,7 @@ const App = () => {
                 deleteList={deleteList}
                 setToastBody={setToastBody}
             />
-            <div className="flex-grow-1">
+            <div className="flex-grow-1  overflow-auto">
                 {
                     !displayedList() 
                         ? 

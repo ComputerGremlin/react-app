@@ -168,7 +168,7 @@ const List = (props) => {
     };
 
 	return (
-		<Container className="p-5 m-auto border overflow-auto flex-nowrap">
+		<Container className="p-5 m-auto border flex-nowrap">
 			<h1 className="text-center">{props.list.name}</h1>
 			<Card className="my-5">
 				<ListGroup variant="flush">
